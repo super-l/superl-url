@@ -23,12 +23,6 @@
 ![image](https://github.com/super-l/search-url/blob/master/run1.png)
 ![image](https://github.com/super-l/search-url/blob/master/run2.png)
 
-# 联系方式
-
-##### 作者博客:http://www.superl.org/post-superlurl.html
-
-##### QQ:86717375    QQ群：199688491
-
 
 # 使用说明
 
@@ -36,7 +30,7 @@
 
 * 2.0版本的文件为superl-url.py，如果需要使用老版本的，则运行search-url-old.py
 
-* 测试环境为Python2.7.x，如果需要python3版本的，可以自行修改，或者博客(http://www.superl.org/post-superlurl.html)留言
+* 测试环境为Python2.7.x，如果需要python3版本的，可以自行修改，或者博客( http://www.superl.org/post-superlurl.html )留言
 
 * 如果要采集关键词为“hacker”的相关网站，采集搜索结果的前3页，则输入如下：
 
