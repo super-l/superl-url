@@ -81,12 +81,6 @@
 
 # 使用说明
 
-* 为了防止采集过快导致封IP之类的事情，程序已经设置了延迟时间。建议不要追求速度，免得换IP。
-
-* 2.0版本的文件为superl-url.py，如果需要使用老版本的，则运行search-url-old.py
-
-* 测试环境为Python2.7.x，如果需要python3版本的，可以自行修改，或者博客(http://www.superl.org/post-searchurl.html)留言
-
 * 如果要采集关键词为“hacker”的相关网站，采集搜索结果的前3页，则输入如下：
 
   * please input keyword:hacker
