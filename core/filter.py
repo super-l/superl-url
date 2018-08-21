@@ -20,6 +20,7 @@
                                 00000
 '''
 import re 
+import sys
 
 try:
     import tldextract
@@ -86,7 +87,10 @@ class Filter(object):
     def get_filtertitle(self):
         file_object = open('config/filter_title.txt')
         try:
-            file_context = file_object.read().decode("utf-8")
+            if sys.version > '3':
+                file_context = file_object.read()
+            else:
+                file_context = file_object.read().decode("utf-8")
         finally:
             file_object.close()
 
