@@ -64,11 +64,12 @@ class Filter(object):
                     return 'filter'
         
         if self.filterUrlParam == 'True':
-            reg = r'^https?:\/\/([a-z0-9\-\.]+)[\/\?]?'
+            reg = r'(^https?:\/\/[a-z0-9\-\.]+)[\/\?]?'
             m = re.match(reg, url)
             if m:
                 uri = m.groups()[0]
-                return uri[uri.rfind('//', 0, uri.rfind('.')) + 1:]
+                # return uri[uri.rfind('//', 0, uri.rfind('.')) + 1:]
+                return uri
         else:
             return url
 
