@@ -76,7 +76,7 @@
 
 ##### 作者博客:http://www.superl.org/post-searchurl.html
 
-##### QQ:86717375    QQ群：199688491
+##### QQ:86717375    QQ群：50246933
 
 
 # 使用说明
