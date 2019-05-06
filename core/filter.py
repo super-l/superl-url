@@ -20,6 +20,7 @@
                                 00000
 '''
 import re 
+import sys
 
 try:
     import tldextract
@@ -63,11 +64,12 @@ class Filter(object):
                     return 'filter'
         
         if self.filterUrlParam == 'True':
-            reg = r'^https?:\/\/([a-z0-9\-\.]+)[\/\?]?'
+            reg = r'(^https?:\/\/[a-z0-9\-\.]+)[\/\?]?'
             m = re.match(reg, url)
             if m:
                 uri = m.groups()[0]
-                return uri[uri.rfind('//', 0, uri.rfind('.')) + 1:]
+                # return uri[uri.rfind('//', 0, uri.rfind('.')) + 1:]
+                return uri
         else:
             return url
 
@@ -86,7 +88,10 @@ class Filter(object):
     def get_filtertitle(self):
         file_object = open('config/filter_title.txt')
         try:
-            file_context = file_object.read().decode("utf-8")
+            if sys.version > '3':
+                file_context = file_object.read()
+            else:
+                file_context = file_object.read().decode("utf-8")
         finally:
             file_object.close()
 
