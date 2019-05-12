@@ -19,8 +19,6 @@
                                 00000                   Blog:www.superl.org
                                 00000
 '''
-import re 
-
 try:
     import tldextract
 except ImportError:
@@ -34,10 +32,12 @@ class Filter(object):
     # filter_title_array = ['翻译', '词典']
 
     def __init__(self):
+
         self.config = Config()
-        self.filterUrlParam = self.config.getValue("filter", "filter_urlparam")
-        self.filterUrl = self.config.getValue("filter", "filter_url")
-        self.filterTitle = self.config.getValue("filter", "filter_title")
+
+        self.filter_status = self.config.datas['filter_status']
+        self.filter_domain = self.config.datas['filter_domain']
+        self.filter_title = self.config.datas['filter_title']
 
         self.filterUrlList = self.get_filterurl()
         self.filterTitleList = self.get_filtertitle()
@@ -52,41 +52,38 @@ class Filter(object):
         except:
             print("解析URL:"+url+" 失败!")
             domain = url
-            
-        if self.filterUrl == 'True':
-            if domain in self.filterUrlList:
-                return 'filter'
 
-        if self.filterTitle == 'True':
-            for filter_titlestr in self.filterTitleList:
-                if filter_titlestr in title:
-                    return 'filter'
-        
-        if self.filterUrlParam == 'True':
-            reg = r'^https?:\/\/([a-z0-9\-\.]+)[\/\?]?'
-            m = re.match(reg, url)
-            if m:
-                uri = m.groups()[0]
-                return uri[uri.rfind('//', 0, uri.rfind('.')) + 1:]
-        else:
-            return url
+        if self.filter_status == 'True':
+            if self.filter_domain == 'True':
+                if domain in self.filterUrlList:
+                    print("URL:" + url + " 被过滤!")
+                    return False
+
+            if self.filter_title == 'True':
+                for filter_titlestr in self.filterTitleList:
+                    if filter_titlestr in title:
+                        print("URL:" + url + " 被过滤!")
+                        return False
+
+        return True
 
 
+    # 获取域名黑名单列表
     def get_filterurl(self):
-        file_object = open('config/filter_url.txt')
+        file_object = open('filter/filter_domain.txt')
         try:
-            file_context = file_object.read()
+            file_context = file_object.read().encode('utf-8').decode('utf-8')
         finally:
             file_object.close()
 
         return file_context
 
 
-
+    # 获取标题文字黑名单列表
     def get_filtertitle(self):
-        file_object = open('config/filter_title.txt')
+        file_object = open('filter/filter_title.txt')
         try:
-            file_context = file_object.read().decode("utf-8")
+            file_context = file_object.read().encode('utf-8').decode('utf-8')
         finally:
             file_object.close()
 

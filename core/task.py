@@ -2,7 +2,7 @@
 # Project = https://github.com/super-l/superl-url.git
 
 '''
-    创建任务 多进程
+    创建任务 根据搜索引擎的不同 多进程并发搜索
     Created by superl[N.S.T].         忘忧草安全团队(Nepenthes Security Team)
                                                                       00000
                                                                       00000
@@ -31,7 +31,7 @@ class Task(object):
 
     def __init__(self, module, page, keyword):
         config = Config()
-        pagesize = config.getValue("pagesize", module)
+        pagesize = config.getValue("pagesize", module+"_pagesize")
 
         print("\033[1;37;40m[*]Search Engine [%s] starting！The number of display bars per page is %s" % (module, pagesize))
 

@@ -24,18 +24,21 @@ from __future__ import print_function
 import datetime
 import sys
 
-if sys.version < '3':
-    reload(sys)
-    sys.setdefaultencoding('utf8')
+try:
+    # python2
     from urllib2 import quote
-elif sys.version_info < (3, 3):
-    import imp
-    imp.reload(sys)
+
+except ImportError:
+    # python3
     from urllib.parse import quote
-else:
-    import importlib
-    importlib.reload(sys)
-    from urllib.parse import quote
+
+if sys.version < '3':
+    try:
+        import sys
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
+    except:
+        pass
 
 from core import gol
 from core.config import Config
@@ -59,7 +62,7 @@ def show_logo():
                                 00000                                           
                                 00000                 blog:www.superl.org       
                                 00000                                           
-     {Author:superl(Nepenthes security team)                   Version 3.0            
+     {Author:superl(Nepenthes security team)                   Version 3.1            
 """
     print(logostr)
 
@@ -69,6 +72,9 @@ if __name__=='__main__':
     startTime = datetime.datetime.now()
 
     show_logo()
+
+    # read config
+    config = Config()
 
     # Set global variables and initialize
     gol._init()
@@ -81,24 +87,13 @@ if __name__=='__main__':
         page = int(input("Search Number of pages:"))
     else:
         keyword = raw_input('\033[1;33;40mplease input keyword:')
-        page = int(raw_input("Search Number of pages:"))
+        page = input("Search Number of pages:")
 
-    config = Config()
-
-    searchEngine = []
-
-    if config.baidu_search == 'True':
-        searchEngine.append("baidu")
-
-    if config.sougou_search == 'True':
-        searchEngine.append("sougou")
-
-    if config.so_search == 'True':
-        searchEngine.append("so")
 
     # Perform the collection task concurrently
-    for i in range(len(searchEngine)):
-        task = Task(searchEngine[i], page, quote(keyword))
+    for engine in(config.engine):
+        task = Task(engine, page, quote(keyword))
+
 
     # Wait for all child processes to complete
     processList = gol.get_value("process")
@@ -115,11 +110,8 @@ if __name__=='__main__':
     # 过滤无用的域名
     filter_status = config.getValue("filter", "filter_status")
     if filter_status == 'True':
-
         print("\033[1;33;40[*]Start Filtering useless url...")
-
         filePath = OutFile.getFilePath(keyword)
-
     #print("\033[1;33;40[*]Start exporting content to Mysql...")
     '''
 

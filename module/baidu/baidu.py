@@ -20,16 +20,16 @@
                                 00000
 '''
 import sys
+import re
 
-from module.engine import Engine
+from core.engine import Engine
 
 try:
     import urllib2
 except ImportError:
     import urllib.request
 
-from core.filter import *
-from utils.http import getHtmlContent
+from utils.http import get_html_content
 
 
 class Baidu(Engine):
@@ -39,9 +39,7 @@ class Baidu(Engine):
         Engine.__init__(self, search_name, outfile)
 
 
-    '''
-    Get the real URL of baidu search results
-    '''
+    # 获取百度搜索引擎结果页面的网页真实URL地址，而不是百度自己的链接地址
     def get_realurl(self, target_url):
         try:
             if sys.version > '3':
@@ -55,13 +53,15 @@ class Baidu(Engine):
         except:
             return target_url
 
+    # 搜索并采集处理内容
     def search(self, keyword, pagesize, page_pn):
         page_num = int(page_pn/pagesize + 1)
 
         search_url = 'http://www.baidu.com/s?wd=key&rn='+str(pagesize)+'&pn='+str(page_pn)
         search_url = search_url.replace('key', keyword)
 
-        htmlcontent = getHtmlContent(search_url, 'baidu')
+        htmlcontent = get_html_content(search_url, 'baidu')
+        # print(type(htmlcontent))
 
         regex_page = r'<span class="pc">'+str(page_num)+'</span>'
         page_compile = re.compile(regex_page)
@@ -69,7 +69,7 @@ class Baidu(Engine):
 
         # 判断是否存在当前页
         if not page_result:
-            print("当前页码"+str(page_num)+"不存在！")
+            print("[baidu]当前页码"+str(page_num)+"不存在！")
             return
 
         regex_titleurl = r'<div class="result c-container ".*<h3 class=".*"><a(?:[^\<]*\n[^\<]*)href = "(?P<url>.+?)"(?:[^\<]*\n[^\<]*)target="_blank"(?:[^\<]*\n[^\<]*)>(?P<title>.+?)</a></h3>'
@@ -79,35 +79,22 @@ class Baidu(Engine):
 
         for i in range(len(find_result)):
             dr = re.compile(r'<[^>]+>', re.S)
+
+            # 百度链接的网页地址
+            baseurl = find_result[i][0]
+
+            # 网页的标题
             title = dr.sub('', find_result[i][1])
 
-            realurl = self.get_realurl(find_result[i][0])
+            # 搜索引擎链接转码后的真实网页地址 带url参数
+            urlparam = self.get_realurl(baseurl)
 
+            # 搜索引擎链接转码后的真实网页地址 去除url参数
+            realurl = ''
+            reg_url = r'(^https?:\/\/[a-z0-9\-\.]+)[\/\?]?'
+            reg_m = re.match(reg_url, urlparam)
+            if reg_m:
+                realurl = reg_m.groups()[0]
 
-            # [old code] If you start the filter module, do so...
-            filter_status = self.config.getValue("filter", "filter_status")
-            if filter_status == 'True':
-                realurl = self.filter.filter_data(realurl, title)
-
-            if realurl == "filter":
-                continue
-
-            print ("[ID]:%d  [URL]:%s  [TITLE]:%s  [Engine]:%s" % (i, realurl, title, self.searchName))
-
-            if self.writeTitle == 'True':
-                if self.writeEngineName == 'True':
-                    urltext = realurl+'    '+title+'    '+self.searchName
-                else:
-                    urltext = realurl+'    '+title
-            else:
-                if self.writeEngineName == 'True':
-                    urltext = realurl+'    '+self.searchName
-                else:
-                    urltext = realurl
-
-            if realurl not in self.tempUrlList:
-                self.tempUrlList.append(realurl)
-                self.tempUrlTextList.append(urltext)
-
-        if self.outfile:
-            self.writefile()
+            # 格式化输出并写入内容
+            self.write_print(i, baseurl, realurl, urlparam, title)

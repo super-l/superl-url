@@ -27,15 +27,20 @@ except ImportError:
 
 from core.config import Config
 
-def getHtmlContent(target_url, header_type):
+# 获取网页内容
+def get_html_content(target_url, header_type):
+
     config = Config()
+
     try:
+        # 如果是搜狗，需要通道自定义请求头来实现页码参数的设置
         if header_type == 'sougou':
             send_headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; rv:16.0) Gecko/20100101 Firefox/16.0',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Connection': 'keep-alive',
-                'Cookie': 'com_sohu_websearch_ITEM_PER_PAGE='+str(config.getValue("pagesize", "sougou"))
+                'Referer': 'https://www.sogou.com/websearch/sogou.jsp?query=superl&page=1',
+                'Cookie': 'com_sohu_websearch_ITEM_PER_PAGE='+str(config.datas['sougou_pagesize'])
             }
         else:
             send_headers = {
@@ -55,4 +60,4 @@ def getHtmlContent(target_url, header_type):
         return response.read().decode('utf-8')
 
     except Exception as e:
-        print("Get html page content error:" + e.message)
+        print("Get html page content error:%s"%(e))

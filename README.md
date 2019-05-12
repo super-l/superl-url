@@ -1,14 +1,13 @@
 
-# 升级公告
+# 程序公告
 
-2019-5-6  开始升级新版。此次升级，主要是修复BUG,提升运行效率，提升兼容性以及降低新手小白的使用难度。预计一周内升级完成。完成后会在群里通知。
+4.0版本已经升级完成。后续的更新可能只是添加更多的搜索引擎支持了。预计将还要支持如谷歌，必应等。
+result目录下面，自带了一个测试搜索python的结果txt.
 
 
 # 程序简介
 
-##### 由于现在时间很有限，如果用的人不多，就不更新和写java版本了。Star数如果达到200就开始写java命令行版本谢谢。
-
-##### 根据关键词，对搜索引擎内容检索结果的网址内容进行采集的一款轻量级软程序(支持中文)。
+##### 根据关键词，对搜索引擎内容检索结果的网址内容进行采集的一款轻量级软程序。
 ##### 程序主要运用于安全渗透测试项目，以及批量评估各类CMS系统0DAY的影响程度，同时也是批量采集自己获取感兴趣的网站的一个小程序~~
 ##### 可自动从搜索引擎采集相关网站的真实地址与标题等信息，可保存为文件，自动去除重复URL。同时，也可以自定义忽略多条域名。
 
@@ -26,7 +25,7 @@
 
 *  可灵活的通过配置文件自定义要保存的结果格式。比如只输出带参数的原始真实URL，或者只输出域名，或者同时输出标题，搜索引擎名称。
 
-*  可灵活的开启与关闭参与采集的搜索引擎，比如只想使用百度
+*  可灵活的开启与关闭参与采集的搜索引擎，比如只想使用百度，就把其他搜索引擎参数设置为False即可。
 
 *  同时兼容python3和python2版本运行！良心开源小产品啊~~~
 
@@ -38,38 +37,21 @@
 
 *  实时显示采集到的网页的【真实URL】以及【标题】。前面的【ID】对应的是当前页搜索引擎结果的第X条数据
 
-*  自动保存结果到result目录的txt文件，文件名为搜索的 关键词.txt 
+*  保存类型可自定义，目前支持保存为本地txt，以及写入远程MYSQL数据库！
 
 # 当前版本
-##### Version 3.0
-  
-# 更新说明
-##### 3.0版，更新如下：
-######  1：系统重构，工程目录结构更清晰
-######  2：同时兼容Python2和python3
-######  3：搜索引擎模块化集成
-######  4：代码质量与运行效率优化
-######  5：支持不同搜索引擎多进程同时采集
-######  6：去重复功能优化
-######  7：过滤功能优化，要过滤的域名添加到txt配置文件即可，同时支持过滤标题关键词
-######  8：tld包换成了tldextract(截取url的顶级域名用的)
-######  9：修复360搜索(so)的采集BUG
-######  10：中文采集BUG修复，保存的文件名也同样为中文，方便识别。
-
-##### 2.0版，内置的搜索引擎增加。包括百度，搜狗，360搜索（新增加支持的搜索引擎比较容易）；
-##### 1.0版，初始版本，满足个人基本需要；
-
+##### Version 4.0
 
 # 使用效果
-##### 测试环境为Mac Pro 10.12
 ##### 测试环境系统为Mac Pro 10.12
-##### 测试环境python版本为2.7
+##### 测试环境python版本为2.7和python3
 ##### 如果提示模块不存在，则根据提示进行安装！
 ##### 一般没有安装tld模块，使用 pip install tld 进行安装。或者官网下载(https://pypi.python.org/pypi/tld/0.7.6)
 ##### 如果使用遇到问题，可以在博客页面评论留言。
 
-![image](https://github.com/super-l/search-url/blob/master/run1.png)
-![image](https://github.com/super-l/search-url/blob/master/run2.png)
+![image](http://www.superl.org/git/superl-url/run1.png)
+![image](http://www.superl.org/git/superl-url/run1.png)
+
 
 # 安装依赖
 ##### 如果是python3，则：
@@ -81,10 +63,10 @@
 ###### pip2 install -i https://pypi.tuna.tsinghua.edu.cn/simple configparser
 
 
+
 # 联系方式
 
 ##### 作者博客:http://www.superl.org/post-searchurl.html
-
 ##### QQ:86717375    QQ群：50246933
 
 
@@ -96,51 +78,102 @@
 
   * Search Number of pages:3
   
-* 配置文件说明 config/setting.conf
+# 配置文件说明 config/setting.conf
 * [global]
-* savefile = True    是否保存文件
-* sleeptime = 0      每页采集间隔X秒
-* current_duplicate = False
-* end_duplicate = True
-
+* save_type = mysql   #保存类型 可选择file或者mysql 如果是file则保存为本地txt
+* sleep_time = 1      #每次搜索处理完一页后的等待时间，防止太频繁被搜索引擎屏蔽
+*
+* [url]
+* url_type = realurl  #保存文件txt里面显示的url类型。realurl=真实网站地址 baseurl=原始搜索引擎地址 urlparam=带参数的真实网站地址
+*
 * [filter]
-* filter_status = True    
-* filter_urlparam = True   是否去除URL参数
-* filter_url = True        是否过滤域名
-* filter_title = True      是否过滤标题
+* filter_status = True  #是否开启过滤器，如果开启，则过滤域名和标题都不生效
+* filter_domain = True  #是否过滤域名
+* filter_title = True   #是否过滤标题
+
 
 * [log]
-* write_title = True       是否把标题也写入日志文件
-* write_name = True        是否把搜索引擎名称也写入日志文件
+* write_title = True    #是否显示标题
+* write_name = True     #是否显示搜索引擎名称
 
-* [search]
-* baidu_search = True      是否开启百度搜索
-* sougou_search = False    是否开启搜狗搜索
-* so_search = True         是否开启360搜索
+
+* [engine]
+* baidu = True          #百度搜索引擎模块是否开启
+* sougou = True         #搜狗模块是否开启
+* so = False            #搜搜模块是否开启 (搜搜现在抓取不到了)
+
 
 * [pagesize]
-* so = 10                  360搜索结果每页显示10条
-* baidu = 50               百度结果每页显示50条
-* sougou = 50              搜狗结果每页显示50条
+* so_pagesize = 10      
+* baidu_pagesize = 50
+* sougou_pagesize = 50
 
-* [mysql]                  导出到Mysql插件(等待后续更新)
-* status = False
-* ip = 127.0.0.1
-* database = superurl
-* user = root
-* password = root
-* table = url
-* field = url,title,pr,timestamp
 
-* [plugin]
-* pr = True                是否开启域名PR查询功能(等待后续更新)
+* [mysql]               #如果保存类型为Mysql，则此处必须配置正确.并且需要自行创建好数据表（查看后文的sql语句）
+* host = 127.0.0.1      #mysql数据库IP
+* port = 3306           #端口
+* user = root           #用户名
+* password = root       #密码
+* database = superldb   #数据库名称
+* table = search_data   #表名称
+
+* [file]
+* save_pathdir = result #如果保存类型为file,则这里设置的是保存的路径，当前为程序根目录的result文件夹。
+
+* [plugin]              #插件功能，暂时不支持
+* pr = True
+
+
+# 数据库创建表sql语句
+
+CREATE TABLE `search_data` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `engine` varchar(20) NOT NULL DEFAULT '',
+  `keyword` varchar(100) NOT NULL DEFAULT '',
+  `baseurl` varchar(255) NOT NULL DEFAULT '',
+  `realurl` varchar(255) NOT NULL DEFAULT '',
+  `urlparam` varchar(255) NOT NULL DEFAULT '',
+  `webtitle` varchar(255) NOT NULL DEFAULT '',
+  `create_time` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=395 DEFAULT CHARSET=utf8;
+
 
 # 关于反馈
 
-##### 如果搜索引擎规则改变，导致采集不到内容，可以[我的博客发布页](http://www.superl.org/post-searchurl.html)留言联系我进行修改。
+##### 如果搜索引擎规则改变，导致采集不到内容，可以[我的博客发布页](http://www.superl.org/post-searchurl.html)留言联系我进行修改，或者直接在git上issues也可以。
 
 
 # 定制优化
 
 ##### 有基础的自己修改吧，随便改，但请保留版权信息。暂时没有时间更新和，也不接定制，有使用问题可以群里问，闲了会回答。
+
+
+  
+# 4.0版本更新说明
+###### 1：系统核心优化，去除和重新封装部分核心类；
+###### 2：配置文件优化（更改部分参数的命名以及新增了参数）；
+###### 3：更新搜索引擎类(比如，module/baidu/baidu.py)的实现写法更加方便与简洁；
+###### 4：python2和python3的兼容性优化(目前在本机MAC系统上分别使用py2和py3都可以正常运行，windows没有环境去测试，如有问题欢迎反馈)
+###### 5：同时支持保存为本地txt和写入远程Mysql数据库；
+###### 6：修复相关异常报错问题;  
+  
+  
+# 3.0版本更新说明
+######  1：系统重构，工程目录结构更清晰
+######  2：同时兼容Python2和python3
+######  3：搜索引擎模块化集成
+######  4：代码质量与运行效率优化
+######  5：支持不同搜索引擎多进程同时采集
+######  6：去重复功能优化
+######  7：过滤功能优化，要过滤的域名添加到txt配置文件即可，同时支持过滤标题关键词
+######  8：tld包换成了tldextract(截取url的顶级域名用的)
+######  9：修复360搜索(so)的采集BUG
+######  10：中文采集BUG修复，保存的文件名也同样为中文，方便识别。
+
+# 2.0版本更新说明
+###### 2.0版，内置的搜索引擎增加。包括百度，搜狗，360搜索（新增加支持的搜索引擎比较容易）；
+
+# 1.0版本更新说明
+###### 1.0版，初始版本，满足个人基本需要；
 

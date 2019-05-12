@@ -2,7 +2,7 @@
 # Project = https://github.com/super-l/superl-url.git
 
 '''
-    采集任务
+    采集任务核心
     Created by superl[N.S.T].         忘忧草安全团队(Nepenthes Security Team)
                                                                       00000
                                                                       00000
@@ -21,23 +21,24 @@
                                 00000
 '''
 import sys
-
-from module.sougou.sougou import Sougou
+import time
 
 if sys.version < '3':
-    from urllib2 import unquote
+    try:
+        # python2
+        from urllib2 import unquote
+    except ImportError:
+        print("urllib2 's unquote import error!")
 else:
-    from urllib.parse import unquote
+    try:
+        # python3
+        from urllib.parse import unquote
+    except ImportError:
+        print("urllib.parse 's unquote import error!")
 
 
 from core.config import Config
-import time
-
-from core.outfile import OutFile
-
-from module.baidu.baidu import Baidu
-from module.so.so import So
-
+from core.outdata import OutData
 
 class Collect(object):
 
@@ -48,15 +49,9 @@ class Collect(object):
         self.keyword = keyword
         self.pageSize = int(pagesize)
 
-        self.saveFile = self.config.getValue("global", "savefile")
-
-        if self.saveFile == 'True':
-            self.outfile = OutFile(unquote(self.keyword))
-        else:
-            self.outfile = None
+        self.OutData = OutData(unquote(self.keyword))
 
         self.collection()
-
 
 
     def collection(self):
@@ -64,31 +59,23 @@ class Collect(object):
         for i in range(self.page):
             print("\033[1;37;40m[*]Search Engine [%s],Page [%s] Start collecting." % (self.module, i+1))
 
-            page_pn = (i * self.pageSize)
-
             if self.module == "baidu":
-                my_baidu = Baidu(self.outfile)
+                page_pn = (i * self.pageSize)
+
+                from module.baidu.baidu import Baidu
+                my_baidu = Baidu(self.OutData)
                 my_baidu.search(self.keyword, self.pageSize, page_pn)
 
             elif self.module == "so":
-                my_so = So(self.outfile)
+                from module.so.so import So
+                my_so = So(self.OutData)
                 my_so.search(self.keyword, i+1)
 
             elif self.module == "sougou":
-                my_sougou = Sougou(self.outfile)
+                from module.sougou.sougou import Sougou
+                my_sougou = Sougou(self.OutData)
                 my_sougou.search(self.keyword, i+1)
 
-            if self.config.sleeptime > 0:
-                time.sleep(self.config.sleeptime)
 
-        if self.outfile == 'True':
-            self.outfile.closeFile()
-
-
-
-
-
-
-
-
-
+            if int(self.config.datas['sleep_time']) > 0:
+                time.sleep(int(self.config.datas['sleep_time']))

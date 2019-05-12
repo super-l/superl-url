@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#coding:utf-8
 # Project = https://github.com/super-l/superl-url.git
 
 '''
@@ -20,29 +20,55 @@
                                 00000                   Blog:www.superl.org
                                 00000
 '''
+
+# python2和python3的ConfigParser大小写不同
+
 try:
-    import ConfigParser
+    # python2
+    from configparser import ConfigParser
+
+    configHeader = ConfigParser()
+
 except ImportError:
+
+    # python3
     import configparser
+
+    configHeader = configparser.ConfigParser()
+
 
 class Config():
 
+    datas = dict()
+    engine = dict()
+
     def __init__(self):
-        # python2和python3的ConfigParser大小写不同
-        try:
-            self.cfg = ConfigParser.ConfigParser()
-        except:
-            self.cfg = configparser.ConfigParser()
+        configHeader.read("config.cfg")
 
-        self.cfg.read("config/setting.conf")
+        # 得到所有的配置节点
+        sections = configHeader.sections()
 
-        self.sleeptime = int(self.cfg.get("global", "sleeptime"))
+        for i in sections:
+            section = i
 
-        self.baidu_search = self.cfg.get("search", "baidu_search")
-        self.sougou_search = self.cfg.get("search", "sougou_search")
-        self.so_search = self.cfg.get("search", "so_search")
+            keys = configHeader.options(section)
+
+            for key in keys:
+                if key != 'port':
+                    value = configHeader.get(section, key)
+                else:
+                    value = configHeader.getint(section, key)
+
+                #print("key:%s value:%s"%(key,value))
+
+                self.datas[key] = value
+
+                if(section == 'engine'):
+                    if value == 'True':
+                        self.engine[key] = value
 
 
+    # 根据节点类型以及名称，获取配置的值
     def getValue(self, type, name):
-        return self.cfg.get(type, name)
+        return configHeader.get(type, name)
 
