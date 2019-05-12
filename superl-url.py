@@ -62,7 +62,7 @@ def show_logo():
                                 00000                                           
                                 00000                 blog:www.superl.org       
                                 00000                                           
-     {Author:superl(Nepenthes security team)                   Version 3.1            
+     {Author:superl(Nepenthes security team)                   Version 4.0            
 """
     print(logostr)
 
