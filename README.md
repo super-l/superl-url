@@ -74,32 +74,24 @@ result目录下面，自带了一个测试搜索python的结果txt.
 | :------| ------: | :------: |:------: |
 | global | save_type | mysql | 保存类型 可选择file或者mysql 如果是file则保存为本地txt |
 | global | sleep_time | 1 | 每次搜索处理完一页后的等待时间，防止太频繁被搜索引擎屏蔽 |
-
 | url | url_type | realurl | 保存文件txt里面显示的url类型。realurl=真实网站地址 baseurl=原始搜索引擎地址 urlparam=带参数的真实网站地址 |
-
 | filter | filter_status | True | 是否开启过滤器，如果开启，则过滤域名和标题都不生效 |
 | filter | filter_domain | True | 是否过滤域名 |
 | filter | filter_title | True | 是否过滤标题 |
-
 | log | write_title | True | 是否显示标题 |
 | log | write_name | True | 是否显示搜索引擎名称 |
-
 | engine | baidu | True | 百度搜索引擎模块是否开启 |
 | engine | sougou | True | 搜狗模块是否开启 |
 | engine | so | False | 搜搜模块是否开启 (搜搜现在抓取不到了) |
-
 | pagesize | baidu_pagesize | 50 | 每页条数 |
 | pagesize | sougou_pagesize | 50 | 每页条数 |
 | pagesize | so_pagesize | 10 | 每页条数 |
-
-
 | mysql | host | 127.0.0.1 | 如果保存类型为Mysql，则此节点必须配置正确 |
 | mysql | port | 3306 | 端口 |
 | mysql | user | root | 用户名|
 | mysql | password | root | 密码 |
 | mysql | database | superldb | 数据库名称 |
 | mysql | table | search_data | 表名称 |
-
 | file | save_pathdir | result | 如果保存类型为file,则这里设置的是保存的路径，当前为程序根目录的result文件夹 |
 | plugin | pr | True | 预留的插件功能，暂时不支持 |
 
