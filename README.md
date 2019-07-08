@@ -31,8 +31,9 @@ result目录下面，自带了一个测试搜索python的结果txt.
 - Version 4.0
 
 ### 使用效果
-- 测试环境系统为Mac Pro 10.12
-- 测试环境python版本为2.7和python3
+- 测试环境1：系统为Mac Pro 10.12  python版本为2.7和python3【测试通过】
+- 测试环境2：系统为win7 64位。python版本为2.7 【测试通过】
+- 如果发现运行有问题，一般都是操作系统的编码导致的小问题，欢迎截图反馈
 
 ![image1](https://github.com/super-l/resource/raw/master/superl-url/images/1.png)
 ![image2](https://github.com/super-l/resource/raw/master/superl-url/images/2.png)
