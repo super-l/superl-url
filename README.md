@@ -43,15 +43,15 @@ result目录下面，自带了一个测试搜索python的结果txt.
 ### 安装依赖
 - 如果是python3，则：
 
-        pip3 install ConfigParser
+        pip install ConfigParser
         
-        pip3 install tldextract
+        pip install tldextract
         
 - 如果是Python2，则：
 
-        pip2 install tldextract
+        pip install tldextract
         
-        pip2 install -i https://pypi.tuna.tsinghua.edu.cn/simple configparser
+        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple configparser
         
 - 如果提示模块不存在，则根据提示进行安装！
 - 一般没有安装tld模块，使用 pip install tld 进行安装。或者官网下载(https://pypi.python.org/pypi/tld/0.7.6)
