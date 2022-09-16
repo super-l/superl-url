@@ -1,10 +1,16 @@
 
 ## 最新公告
 
-2021年6月13日: 最新的多个商业版本已经开发与测试完毕！采用GO+java+vue等语言完全重新设计开发。如有需要可加QQ：50945127  群：50246933.
+python版本已停止维护，go语言版本已启动，地址：https://github.com/super-l/msray 
 
-商业版在线文档：http://www.msray.net/doc
+如需使用，可查看最新的基于Go语言的url采集项目：msray（于2022年9月发布）；
 
+```
+QQ群：50246933
+TG群：https://t.me/ms_ray
+免费版下载：https://github.com/super-l/msray/releases
+商业版文档：http://www.msray.net/doc
+```
 
 
 ### 程序简介
