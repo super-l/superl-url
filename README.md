@@ -6,7 +6,7 @@ python版本已停止维护，go语言版本已启动，地址：https://github.
 如需使用，可查看最新的基于Go语言的url采集项目：msray（于2022年9月发布）；
 
 ```
-QQ群：50246933
+QQ群：199688491
 TG群：https://t.me/ms_ray
 免费版下载：https://github.com/super-l/msray/releases
 商业版文档：http://www.msray.net/doc
