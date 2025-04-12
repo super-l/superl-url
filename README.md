@@ -7,9 +7,9 @@ python版本已停止维护，go语言版本已启动，地址：https://github.
 
 ```
 QQ群：235586685
-TG群：https://t.me/ms_ray
+TG群：[https://t.me/ms_ray](https://t.me/msray_soft)
 免费版下载：https://github.com/super-l/msray/releases
-商业版文档：http://www.msray.net/doc
+商业版文档：http://doc.msray.net
 ```
 
 
